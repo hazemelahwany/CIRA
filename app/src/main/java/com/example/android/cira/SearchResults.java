@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -52,13 +51,11 @@ public class SearchResults extends Activity {
     private void handleIntent(Intent intent) {
 //        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra("query");
-            Log.v("query", query);
             doMySearch(query);
 //        }
     }
 
     private void doMySearch(String query) {
-        Log.v("fuck", query);
         new getContact().execute(query);
     }
 

@@ -11,14 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +22,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -86,11 +81,6 @@ public class SearchFragement extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                for(int i = 0; i < contactList.size(); i++) {
-                    if(contactList != null)
-                        Log.v("Contact", contactList.get(i));
-                }
-
             }
         }).start();
 
@@ -164,7 +154,6 @@ public class SearchFragement extends Fragment {
                 // Add the contact to the ArrayList
                 contact.put("phones", phone);
                 contact.put("emails", emailJson);
-                Log.v("c", contact.toString());
                 contactList.add(output.toString());
                 new postContact().execute(contact.toString());
             }
@@ -180,9 +169,7 @@ public class SearchFragement extends Fragment {
     }
 
     public void updateContact(int position) {
-        Log.v("koso", String.valueOf(position));
         new putContact().execute(String.valueOf(position+1));
-
     }
 
     public void removeContact(int position) {
@@ -215,7 +202,6 @@ public class SearchFragement extends Fragment {
                 urlConnection.connect();
                 writer = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
                 writer.write(suggestedContactsDB.getData(Integer.parseInt(strings[0])));
-                Log.v("put", suggestedContactsDB.getData(Integer.parseInt(strings[0])));
                 writer.flush();
 
 
@@ -253,7 +239,6 @@ public class SearchFragement extends Fragment {
             return null;
         }
     }
-
 
     public class postContact extends AsyncTask<String, Void, Void> {
 
@@ -377,127 +362,4 @@ public class SearchFragement extends Fragment {
             dataList.setAdapter(adapter);
         }
     }
-
-//    public class FetchContacts extends AsyncTask<Object, Object, String[]> {
-//
-//
-//        @Override
-//        protected String[] doInBackground(Object... params) {
-//
-//            HttpURLConnection urlConnection = null;
-//            BufferedReader reader = null;
-//
-//            String contactsJsonString = null;
-//
-////            Object sort = params[0];
-//
-//
-//
-//            try {
-//
-//
-//
-//                Uri buildUri = Uri.parse(BASE_URL).buildUpon().appendPath("Contact").build();
-//
-//                URL url = new URL(buildUri.toString());
-//
-//
-//                urlConnection = (HttpURLConnection) url.openConnection();
-//                urlConnection.setRequestMethod("GET");
-//                urlConnection.connect();
-//
-//                InputStream inputStream = urlConnection.getInputStream();
-//                StringBuilder buffer = new StringBuilder();
-//                if (inputStream == null) {
-//                    // Nothing to do.
-//                    return null;
-//                }
-//                reader = new BufferedReader(new InputStreamReader(inputStream));
-//
-//                String line;
-//                while ((line = reader.readLine()) != null) {
-//                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-//                    // But it does make debugging a *lot* easier if you print out the completed
-//                    // buffer for debugging.
-//                    buffer.append(line).append("\n");
-//                }
-//
-//                if (buffer.length() == 0) {
-//                    // Stream was empty.  No point in parsing.
-//                    return null;
-//                }
-//
-//                contactsJsonString = buffer.toString();
-//
-//
-//            } catch (IOException ioException) {
-//                Log.e("Query error", ioException.getLocalizedMessage());
-//            } finally {
-//                if (urlConnection != null) {
-//                    urlConnection.disconnect();
-//                }
-//                if (reader != null) {
-//                    try {
-//                        reader.close();
-//                    } catch (final IOException e) {
-//                        Log.e("Error closing stream", e.getLocalizedMessage());
-//                    }
-//                }
-//            }
-//            try {
-//                return parseJson(contactsJsonString);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            return null;
-//        }
-//
-//        private String[] parseJson(String contactsJsonString) throws JSONException {
-//
-//            final String Name = "name";
-//            final String EMAILS = "email";
-//            final String PHONES = "phone";
-//
-//
-//            JSONArray contactsArray = new JSONArray(contactsJsonString);
-//
-//            String[] results = new String[contactsArray.length()];
-//            for (int i = 0; i < contactsArray.length(); i++) {
-//
-//                String name;
-//                String email;
-//                String phone;
-//
-//
-//                JSONObject contact = contactsArray.getJSONObject(i);
-//
-//                name = contact.getString(Name);
-//                email = contact.getString(EMAILS);
-//                phone = contact.getString(PHONES);
-//
-//
-//
-//                results[i] = "Name: " + name + "\n" + "Phone: " + phone + "\n" + "Email: " + email;
-//
-//
-//            }
-//
-//            return results;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(String[] strings) {
-//            if(strings != null) {
-//                contactsList = new ArrayList<>(strings.length);
-//                for (int i = 0; i < strings.length; i++) {
-//                    contactsList.add(strings[i]);
-//                }
-//                adapter = new ArrayAdapter<>(getActivity(), android.R.layout.activity_list_item, android.R.id.text1, contactsList);
-//                dataList.setAdapter(adapter);
-////            json.setText(contacts+ "\n");
-//            }
-//        }
-//    }
 }
