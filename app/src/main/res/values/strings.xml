@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CIRA</string>
+
+    <!---Welcome Activity Strings-->
+    <string name="logo_description">App logo which provides the name of the app CIRA and a paper symbol</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button_text">login</string>
+
+    <string name="search_hint">Search for a client</string>
+    <string name="title_activity_search_results">SearchResults</string>
+</resources>
